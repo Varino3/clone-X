@@ -1,8 +1,10 @@
-// store/reducers.js
+// store/reducers.jsx
 import { combineReducers } from 'redux';
 
+// ... otros reducers ...
+
 // Reducer para el usuario
-const userReducer = (state = null, action) => {
+export const userReducer = (state = null, action) => {
     switch (action.type) {
         case 'SET_USER':
             return action.payload;
@@ -14,7 +16,7 @@ const userReducer = (state = null, action) => {
 };
 
 // Reducer para los tweets
-const tweetsReducer = (state = [], action) => {
+export const tweetsReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_TWEET':
             return [...state, action.payload];
@@ -28,20 +30,6 @@ const rootReducer = combineReducers({
     user: userReducer,
     tweets: tweetsReducer,
     // Puedes agregar más reducers según sea necesario
-});
-
-export const setUser = (user) => ({
-    type: 'SET_USER',
-    payload: user,
-});
-
-export const logout = () => ({
-    type: 'LOGOUT',
-});
-
-export const addTweet = (tweet) => ({
-    type: 'ADD_TWEET',
-    payload: tweet,
 });
 
 export default rootReducer;

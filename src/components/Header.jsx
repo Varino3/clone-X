@@ -1,7 +1,7 @@
 // components/Header.jsx
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, logout } from '../store/reducers'; // Ajusta la ruta según tu estructura de carpetas
+import { setUser, logout } from '../store/actions'; // Ajusta la ruta según tu estructura de carpetas
 
 const Header = () => {
     const user = useSelector((state) => state.user);
