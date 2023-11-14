@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TweetList from '../components/TweetList';
-import { addTweet } from '../store/reducers';
+import { addTweet } from '../store/actions';
 
 const Home = () => {
     const tweets = useSelector((state) => state.tweets);
