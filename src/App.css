@@ -1,6 +1,4 @@
-/* App.css */
-
-/* Estilos globales que aplican a toda la aplicación */
+/* Estilos globales */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -11,10 +9,16 @@ header {
   background-color: #1da1f2;
   color: white;
   padding: 10px;
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
 }
 
-/* Estilos específicos de Home.jsx */
+header>div {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilos Home.jsx */
 .home-container {
   max-width: 600px;
   margin: 0 auto;
@@ -41,8 +45,13 @@ button {
   cursor: pointer;
   background-color: #1da1f2;
   color: white;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
+  margin-left: 20px;
+}
+
+button:hover {
+  background-color: #1984c7;
 }
 
 .tweet-list {
@@ -57,4 +66,17 @@ button {
   padding: 10px;
   margin: 10px;
   max-width: 400px;
+}
+
+/* Estilos perfil */
+.user-profile>div>div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-profile img {
+  width: 10rem;
+  border-radius: 50%;
+  border: 1px dotted;
 }
