@@ -3,9 +3,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, logout } from '../store/actions';
 
-// Foto del usuario
-import avatarUser from '../assets/avatar.jpg';
-
 const Header = () => {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
