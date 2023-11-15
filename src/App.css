@@ -41,8 +41,11 @@ button {
   cursor: pointer;
   background-color: #1da1f2;
   color: white;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
+}
+button:hover{
+  background-color: #1984c7;
 }
 
 .tweet-list {

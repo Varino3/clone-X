@@ -27,11 +27,11 @@ const Home = () => {
             <div className='tweet-form'>
                 <textarea
                     rows="3"
-                    placeholder="Escribe tu nuevo tweet"
+                    placeholder="Escribe un nuevo tweet"
                     value={newTweetText}
                     onChange={(e) => setNewTweetText(e.target.value)}
                 />
-                <button onClick={handleAddTweet}>Agregar Tweet</button>
+                <button onClick={handleAddTweet}>Tweetear</button>
             </div>
             <TweetList tweets={tweets} />
         </div>

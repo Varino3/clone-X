@@ -19,7 +19,7 @@ const Header = () => {
 
     return (
         <header>
-            <h1>My Twitter Clone</h1>
+            <h1>X-Clone</h1>
             {user ? (
                 <div>
                     <p>Bienvenido, {user.username}</p>
@@ -28,7 +28,7 @@ const Header = () => {
             ) : (
                 <div>
                     <p>Inicia sesión</p>
-                    <button onClick={handleLogin}>Iniciar Sesión</button>
+                    <button onClick={handleLogin}>Acceder</button>
                 </div>
             )}
         </header>
