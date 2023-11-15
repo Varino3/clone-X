@@ -11,10 +11,9 @@ const UserProfile = () => {
                 <div>
                     <h2>Perfil de Usuario</h2>
                     <div>
-                        <img src={user.avatar} alt="Avatar usuario" />
+                        <img src={user.imagen_perfil} alt="Avatar usuario" />
                         <div>
-                            <p>Nombre: {user.name}</p>
-                            <p>Usuario: {user.username}</p>
+                            <p>Nombre: {user.nombre_usuario}</p>
                             <p>Correo electrónico: {user.email}</p>
                         </div>
                     </div>

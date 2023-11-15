@@ -23,10 +23,21 @@ export const tweetsReducer = (state = [], action) => {
     }
 };
 
+// Reducer para los usuarios
+export const usersReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'LOAD_USERS':
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
 // Combinar los reducers
 const rootReducer = combineReducers({
     user: userReducer,
     tweets: tweetsReducer,
+    users: usersReducer,
 });
 
 export default rootReducer;

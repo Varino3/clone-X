@@ -1,5 +1,5 @@
 // components/Header.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, logout } from '../store/actions';
 
@@ -9,16 +9,28 @@ import avatarUser from '../assets/avatar.jpg';
 const Header = () => {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const [loginData, setLoginData] = useState({ username: '', password: '' });
+    const [loginError, setLoginError] = useState('');
 
-    const handleLogin = () => {
-        // Simulación de inicio de sesión
-        const mockUser = {
-            username: 'manolillo',
-            name: 'Manolo García',
-            email: 'manolillo@gmail.com',
-            avatar: avatarUser
-        };
-        dispatch(setUser(mockUser));
+    const handleLogin = async () => {
+        try {
+            const response = await fetch('/users.json');
+            const data = await response.json();
+
+            // Simulación de inicio de sesión
+            const { username, password } = loginData;
+            const authenticatedUser = data.usuarios.find(
+                (user) => user.nombre_usuario === username && user.contraseña === password
+            );
+
+            if (authenticatedUser) {
+                dispatch(setUser(authenticatedUser));
+            } else {
+                setLoginError('Credenciales incorrectas');
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de usuarios', error);
+        }
     };
 
     const handleLogout = () => {
@@ -36,7 +48,22 @@ const Header = () => {
             ) : (
                 <div>
                     <p>Inicia sesión</p>
-                    <button onClick={handleLogin}>Acceder</button>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Nombre de usuario"
+                            value={loginData.username}
+                            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Contraseña"
+                            value={loginData.password}
+                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                        />
+                        <button onClick={handleLogin}>Acceder</button>
+                    </div>
+                    {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
                 </div>
             )}
         </header>
