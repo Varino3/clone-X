@@ -25,7 +25,7 @@ const Tweet = ({ tweet }) => {
   return (
     <div className="tweet">
       <p>
-        <b>{user.nombre_usuario}</b>: {tweet.text}
+        <b>{user ? user.nombre_usuario : 'Usuario Desconocido'}</b>: {tweet.text}
       </p>
       <div className="tweet-buttons">
         <button onClick={handleLike}>
