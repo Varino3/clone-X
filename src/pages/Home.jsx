@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import TweetList from '../components/TweetList';
 import UserProfile from '../components/UserProfile';
 import { addTweet } from '../store/actions';
+import NewsSection from '../components/NewsSection';
 
 const Home = () => {
     const user = useSelector((state) => state.user);
@@ -45,6 +46,9 @@ const Home = () => {
                 </div>
             )}
             <TweetList tweets={tweets} />
+            <div className="news-container">
+                <NewsSection /> {/* Integra el componente de Noticias aquí */}
+            </div>
         </div>
     );
 };
