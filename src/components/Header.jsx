@@ -23,7 +23,7 @@ const Header = () => {
             if (authenticatedUser) {
                 dispatch(setUser(authenticatedUser));
             } else {
-                setLoginError('Credenciales incorrectas');
+                setLoginError('Datos incorrectas');
             }
         } catch (error) {
             console.error('Error al obtener datos de usuarios', error);

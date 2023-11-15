@@ -25,7 +25,6 @@ const Home = () => {
                 setNewTweetText('');
             }
         } else {
-            // Mostrar un mensaje o redirigir a la página de inicio de sesión
             console.log('Debes iniciar sesión para escribir un tweet.');
         }
     };
@@ -47,7 +46,7 @@ const Home = () => {
             )}
             <TweetList tweets={tweets} />
             <div className="news-container">
-                <NewsSection /> {/* Integra el componente de Noticias aquí */}
+                <NewsSection />
             </div>
         </div>
     );
