@@ -1,7 +1,10 @@
 // components/Header.jsx
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, logout } from '../store/actions'; // Ajusta la ruta según tu estructura de carpetas
+import { setUser, logout } from '../store/actions';
+
+// Foto del usuario
+import avatarUser from '../assets/avatar.jpg';
 
 const Header = () => {
     const user = useSelector((state) => state.user);
@@ -9,7 +12,12 @@ const Header = () => {
 
     const handleLogin = () => {
         // Simulación de inicio de sesión
-        const mockUser = { username: 'usuario_prueba' };
+        const mockUser = {
+            username: 'manolillo',
+            name: 'Manolo García',
+            email: 'manolillo@gmail.com',
+            avatar: avatarUser
+        };
         dispatch(setUser(mockUser));
     };
 

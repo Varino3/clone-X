@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TweetList from '../components/TweetList';
+import UserProfile from '../components/UserProfile';
 import { addTweet } from '../store/actions';
 
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
 
     return (
         <div className='home-container'>
+            <UserProfile />
             <h2>Inicio</h2>
             <div className='tweet-form'>
                 <textarea
