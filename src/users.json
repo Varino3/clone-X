@@ -1,0 +1,25 @@
+{
+    "usuarios": [
+        {
+            "uuid": "1a2b3c4d-1234-5678-90ab-cdef12345678",
+            "nombre_usuario": "user1",
+            "email": "usuario1@example.com",
+            "contraseña": "contraseña1",
+            "imagen_perfil": "https://example.com/user1_profile.jpg"
+        },
+        {
+            "uuid": "5e6f7g8h-9876-5432-10dc-ba9876543210",
+            "nombre_usuario": "user2",
+            "email": "usuario2@example.com",
+            "contraseña": "contraseña2",
+            "imagen_perfil": "https://example.com/user2_profile.jpg"
+        },
+        {
+            "uuid": "9i8u7y6t-6543-2109-fe78-dc6543210987",
+            "nombre_usuario": "user3",
+            "email": "usuario3@example.com",
+            "contraseña": "contraseña3",
+            "imagen_perfil": "https://example.com/user3_profile.jpg"
+        }
+    ]
+}
