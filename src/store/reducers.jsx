@@ -1,8 +1,6 @@
 // store/reducers.jsx
 import { combineReducers } from 'redux';
 
-// ... otros reducers ...
-
 // Reducer para el usuario
 export const userReducer = (state = null, action) => {
     switch (action.type) {
@@ -29,7 +27,6 @@ export const tweetsReducer = (state = [], action) => {
 const rootReducer = combineReducers({
     user: userReducer,
     tweets: tweetsReducer,
-    // Puedes agregar más reducers según sea necesario
 });
 
 export default rootReducer;
