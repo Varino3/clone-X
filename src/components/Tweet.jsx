@@ -3,12 +3,14 @@ import React from 'react';
 
 const Tweet = ({ tweet, users }) => {
   const userId = tweet.userId;
-  const user = users[userId] || {}; // Obtén el usuario por ID
+
+  // Buscar el usuario por su ID en el array de usuarios
+  const user = users.find(user => user.uuid === userId) || {};
 
   return (
     <div className='tweet'>
       <div className='tweet-user'>
-        Usuario: {user.nombre_usuario}
+        Usuario: {tweet.nombre_usuario}
       </div>
       <div className='tweet-text'>{tweet.text}</div>
     </div>
