@@ -1,55 +1,94 @@
-// pages/Home.jsx
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+// Home.jsx
+
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import TweetList from '../components/TweetList';
 import UserProfile from '../components/UserProfile';
-import { addTweet } from '../store/actions';
 import NewsSection from '../components/NewsSection';
+import { addTweet, getAllTweets, getAllUsers } from '../components/indexedDB';
 
 const Home = () => {
-    const user = useSelector((state) => state.user);
-    const tweets = useSelector((state) => state.tweets);
-    const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const [newTweetText, setNewTweetText] = useState('');
+  const [currentTweets, setCurrentTweets] = useState([]);
+  const [allTweets, setAllTweets] = useState([]);
+  const [users, setUsers] = useState([]);
 
-    const [newTweetText, setNewTweetText] = useState('');
+  useEffect(() => {
+    const loadTweets = async () => {
+      try {
+        // Obtener todos los tweets y usuarios de IndexedDB
+        const allTweetsData = await getAllTweets();
+        const allUsersData = await getAllUsers();
 
-    const handleAddTweet = () => {
-        if (user) {
-            // Verificar si el usuario ha iniciado sesión antes de agregar un tweet
-            if (newTweetText.trim() !== '') {
-                const newTweet = {
-                    id: Date.now(),
-                    text: newTweetText,
-                };
-                dispatch(addTweet(newTweet));
-                setNewTweetText('');
-            }
-        } else {
-            console.log('Debes iniciar sesión para escribir un tweet.');
-        }
+        setAllTweets(allTweetsData);
+        setUsers(allUsersData);
+
+        // Filtrar los tweets para el usuario actual
+        const currentUserTweets = user ? allTweetsData.filter(tweet => tweet.userId === user.uuid) : [];
+        setCurrentTweets(currentUserTweets);
+      } catch (error) {
+        console.error('Error al cargar los tweets:', error);
+      }
     };
 
-    return (
-        <div className='home-container'>
-            <UserProfile />
-            {user && (
-                <div className='tweet-form'>
-                    <h2>Inicio</h2>
-                    <textarea
-                        rows="3"
-                        placeholder="Escribe un nuevo tweet"
-                        value={newTweetText}
-                        onChange={(e) => setNewTweetText(e.target.value)}
-                    />
-                    <button onClick={handleAddTweet}>Tweetear</button>
-                </div>
-            )}
-            <TweetList tweets={tweets} />
-            <div className="news-container">
-                <NewsSection />
-            </div>
+    // Cargar tweets y usuarios al cargar la página
+    loadTweets();
+  }, [user]);
+
+  const handleAddTweet = async () => {
+    if (user) {
+      if (newTweetText.trim() !== '') {
+        // Obtener el nombre de usuario actual directamente del objeto user
+        const username = user.nombre_usuario || 'Usuario Desconocido';
+
+        // Añadir el tweet a IndexedDB
+        await addTweet(user.uuid, username, newTweetText);
+
+        // Obtener todos los tweets y usuarios de IndexedDB después de agregar el tweet
+        const allTweetsData = await getAllTweets();
+        const allUsersData = await getAllUsers();
+
+        setAllTweets(allTweetsData);
+        setUsers(allUsersData);
+
+        // Filtrar los tweets para el usuario actual
+        const currentUserTweets = user ? allTweetsData.filter(tweet => tweet.userId === user.uuid) : [];
+        setCurrentTweets(currentUserTweets);
+
+        setNewTweetText('');
+      }
+    } else {
+      console.log('Debes iniciar sesión para escribir un tweet.');
+    }
+  };
+
+
+  return (
+    <div className='home-container'>
+      <UserProfile />
+      {user && (
+        <div className='tweet-form'>
+          <h2>Inicio</h2>
+          <textarea
+            rows="3"
+            placeholder="Escribe un nuevo tweet"
+            value={newTweetText}
+            onChange={(e) => setNewTweetText(e.target.value)}
+          />
+          <button onClick={handleAddTweet}>Tweetear</button>
         </div>
-    );
+      )}
+      <TweetList tweets={currentTweets} users={users} />
+      {user && (
+        <div className="news-container">
+          <h2>Tweets de otros usuarios</h2>
+          <TweetList tweets={allTweets.filter(tweet => tweet.userId !== user.uuid)} users={users} />
+        </div>
+      )}
+      <NewsSection />
+    </div>
+  );
 };
 
 export default Home;

@@ -1,24 +1,30 @@
-// store/actions.jsx
+// actions.jsx
 export const setUser = (user) => ({
     type: 'SET_USER',
-    payload: user,
+    user,
 });
 
 export const logout = () => ({
     type: 'LOGOUT',
 });
 
-export const addTweet = (tweet) => ({
-    type: 'ADD_TWEET',
-    payload: tweet,
-});
-
-export const login = (credentials) => ({
+export const login = (username, password) => ({
     type: 'LOGIN',
-    payload: credentials,
+    username,
+    password,
 });
 
-export const setLoginError = (error) => ({
-    type: 'SET_LOGIN_ERROR',
-    payload: error,
+export const addAutoUserTweet = (tweet) => ({
+    type: 'ADD_AUTO_USER_TWEET',
+    tweet,
+});
+
+export const setInitialTweets = (tweets) => ({
+    type: 'SET_INITIAL_TWEETS',
+    tweets,
+});
+
+export const addNewTweet = (tweet) => ({
+    type: 'ADD_NEW_TWEET',
+    tweet,
 });

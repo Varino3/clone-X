@@ -14,7 +14,8 @@ const UserProfile = () => {
                         <img src={user.imagen_perfil} alt="Foto usuario" />
                         <div>
                             <p>Nombre: {user.nombre_usuario}</p>
-                            <p>Correo electrónico: {user.email}</p>
+                            <p>Correo: {user.email}</p>
+                            <span> {user.uuid} </span>
                         </div>
                     </div>
                 </div>

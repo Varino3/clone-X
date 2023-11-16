@@ -39,7 +39,7 @@ const Header = () => {
             <h1>X-Clone</h1>
             {user ? (
                 <div>
-                    <p>Bienvenido, {user.username}</p>
+                    <p>Bienvenido, {user.nombre_usuario}</p>
                     <button onClick={handleLogout}>Cerrar Sesión</button>
                 </div>
             ) : (
