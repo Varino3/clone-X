@@ -1,18 +1,29 @@
 // Tweet.jsx
 import React from 'react';
+import { deleteTweet } from './indexedDB';
 
-const Tweet = ({ tweet, users }) => {
+const Tweet = ({ tweet, users, onDelete }) => {
   const userId = tweet.userId;
+  const user = users.find((u) => u.uuid === userId) || {};
 
-  // Buscar el usuario por su ID en el array de usuarios
-  const user = users.find(user => user.uuid === userId) || {};
+  const handleDelete = async () => {
+    try {
+      await deleteTweet(tweet.id);
+      onDelete();
+    } catch (error) {
+      console.error('Error al eliminar el tweet:', error);
+    }
+  };
 
   return (
     <div className='tweet'>
       <div className='tweet-user'>
-        Usuario: {tweet.nombre_usuario}
+        Usuario: {user.nombre_usuario}
       </div>
       <div className='tweet-text'>{tweet.text}</div>
+      {onDelete && (
+        <button onClick={handleDelete}>Eliminar</button>
+      )}
     </div>
   );
 };
