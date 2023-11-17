@@ -1,53 +1,18 @@
-// components/Tweet.jsx
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faShare } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+// Tweet.jsx
+import React from 'react';
 
-const Tweet = ({ tweet }) => {
-  const [likes, setLikes] = useState(0);
-  const [isShared, setIsShared] = useState(false);
-  const [shareEmail, setShareEmail] = useState('');
-  const user = useSelector((state) => state.user);
+const Tweet = ({ tweet, users }) => {
+  const userId = tweet.userId;
 
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
-
-  const handleShare = () => {
-    setIsShared(!isShared);
-  };
-
-  const handleEmailChange = (e) => {
-    setShareEmail(e.target.value);
-  };
+  // Buscar el usuario por su ID en el array de usuarios
+  const user = users.find(user => user.uuid === userId) || {};
 
   return (
-    <div className="tweet">
-      <p>
-        <b>{user.username}</b>: {tweet.text}
-      </p>
-      <div className="tweet-buttons">
-        <button onClick={handleLike}>
-          <FontAwesomeIcon icon={faHeart} /> {likes}
-        </button>
-        <button onClick={handleShare} disabled={isShared}>
-          <FontAwesomeIcon icon={faShare} /> Compartir
-        </button>
-        {isShared && (
-          <div>
-            <label htmlFor="shareEmail">Enviar a: </label>
-            <input
-              type="email"
-              id="shareEmail"
-              value={shareEmail}
-              onChange={handleEmailChange}
-              placeholder="Correo electrónico"
-            />
-            <button onClick={handleShare}>Cancelar</button>
-          </div>
-        )}
+    <div className='tweet'>
+      <div className='tweet-user'>
+        Usuario: {tweet.nombre_usuario}
       </div>
+      <div className='tweet-text'>{tweet.text}</div>
     </div>
   );
 };

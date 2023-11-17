@@ -3,9 +3,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, logout } from '../store/actions';
 
-// Foto del usuario
-import avatarUser from '../assets/avatar.jpg';
-
 const Header = () => {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -26,7 +23,7 @@ const Header = () => {
             if (authenticatedUser) {
                 dispatch(setUser(authenticatedUser));
             } else {
-                setLoginError('Credenciales incorrectas');
+                setLoginError('Datos incorrectas');
             }
         } catch (error) {
             console.error('Error al obtener datos de usuarios', error);
@@ -42,7 +39,7 @@ const Header = () => {
             <h1>X-Clone</h1>
             {user ? (
                 <div>
-                    <p>Bienvenido, {user.username}</p>
+                    <p>Bienvenido, {user.nombre_usuario}</p>
                     <button onClick={handleLogout}>Cerrar Sesión</button>
                 </div>
             ) : (
