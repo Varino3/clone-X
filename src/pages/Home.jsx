@@ -1,11 +1,9 @@
-// Home.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import TweetList from '../components/TweetList';
 import UserProfile from '../components/UserProfile';
 import NewsSection from '../components/NewsSection';
-import { addTweet, getAllTweets, getAllUsers } from '../components/indexedDB';
+import { addTweet, getAllTweets, getAllUsers, deleteTweet } from '../components/indexedDB';
 
 const Home = () => {
   const user = useSelector((state) => state.user);
@@ -13,6 +11,8 @@ const Home = () => {
   const [currentTweets, setCurrentTweets] = useState([]);
   const [allTweets, setAllTweets] = useState([]);
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const loadTweets = async () => {
@@ -27,6 +27,19 @@ const Home = () => {
         // Filtrar los tweets para el usuario actual
         const currentUserTweets = user ? allTweetsData.filter(tweet => tweet.userId === user.uuid) : [];
         setCurrentTweets(currentUserTweets);
+
+        // Si no hay término de búsqueda, ordenar los tweets de más nuevo a más antiguo
+        if (!searchTerm) {
+          const sortedTweets = allTweetsData.sort((a, b) => b.id - a.id);
+          setAllTweets(sortedTweets);
+        }
+
+        // Filtrar los tweets según el término de búsqueda
+        const filteredTweets = allTweetsData.filter(
+          tweet =>
+            tweet.text.includes(searchTerm) || tweet.nombre_usuario.includes(searchTerm)
+        );
+        setSearchResults(filteredTweets);
       } catch (error) {
         console.error('Error al cargar los tweets:', error);
       }
@@ -34,7 +47,7 @@ const Home = () => {
 
     // Cargar tweets y usuarios al cargar la página
     loadTweets();
-  }, [user]);
+  }, [user, searchTerm]);
 
   const handleAddTweet = async () => {
     if (user) {
@@ -63,6 +76,30 @@ const Home = () => {
     }
   };
 
+  const handleDeleteTweet = async (tweetId) => {
+    try {
+      await deleteTweet(tweetId);
+
+      // Actualizar la lista de tweets después de eliminar uno
+      const allTweetsData = await getAllTweets();
+      setAllTweets(allTweetsData);
+
+      // Filtrar los tweets para el usuario actual después de eliminar uno
+      const currentUserTweets = user ? allTweetsData.filter(tweet => tweet.userId === user.uuid) : [];
+      setCurrentTweets(currentUserTweets);
+    } catch (error) {
+      console.error('Error al eliminar el tweet:', error);
+    }
+  };
+
+  const handleSearch = () => {
+    // Filtrar los tweets según el término de búsqueda al hacer clic en el botón
+    const filteredTweets = allTweets.filter(
+      tweet =>
+        tweet.text.includes(searchTerm) || tweet.nombre_usuario.includes(searchTerm)
+    );
+    setSearchResults(filteredTweets);
+  };
 
   return (
     <div className='home-container'>
@@ -71,24 +108,43 @@ const Home = () => {
         <div className='tweet-form'>
           <h2>Inicio</h2>
           <textarea
-            rows="3"
-            placeholder="Escribe un nuevo tweet"
+            rows='3'
+            placeholder='Escribe un nuevo tweet'
             value={newTweetText}
             onChange={(e) => setNewTweetText(e.target.value)}
           />
           <button onClick={handleAddTweet}>Tweetear</button>
+
+          {/* Barra de búsqueda para filtrar tweets */}
+          <div className='search-bar'>
+            <input
+              type='text'
+              placeholder='Buscar tweets'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button onClick={handleSearch}>Buscar</button>
+          </div>
         </div>
       )}
-      <TweetList tweets={currentTweets} users={users} />
+      {/* Mostrar la lista de tweets según el término de búsqueda o los tweets del usuario actual */}
+      <TweetList tweets={searchTerm ? searchResults : currentTweets} users={users} onDelete={handleDeleteTweet} />
       {user && (
-        <div className="news-container">
+        <div className='news-container'>
           <h2>Tweets de otros usuarios</h2>
-          <TweetList tweets={allTweets.filter(tweet => tweet.userId !== user.uuid)} users={users} />
+          {/* Mostrar la lista de tweets filtrados o todos los tweets de otros usuarios */}
+          <TweetList
+            tweets={searchResults.length === 0 && !searchTerm ? [] : allTweets.filter((tweet) => tweet.userId !== user.uuid)}
+            users={users}
+            onDelete={handleDeleteTweet}
+          />
         </div>
       )}
+      {/* Sección de noticias (puedes agregar el componente correspondiente aquí) */}
       <NewsSection />
     </div>
   );
 };
 
+// Exportar el componente Home para su uso en otros archivos
 export default Home;
