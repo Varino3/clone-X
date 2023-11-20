@@ -114,6 +114,8 @@ const Home = () => {
             onChange={(e) => setNewTweetText(e.target.value)}
           />
           <button onClick={handleAddTweet}>Tweetear</button>
+
+          {/* Barra de búsqueda para filtrar tweets */}
           <div className='search-bar'>
             <input
               type='text'
@@ -121,13 +123,16 @@ const Home = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+            <button onClick={handleSearch}>Buscar</button>
           </div>
         </div>
       )}
+      {/* Mostrar la lista de tweets según el término de búsqueda o los tweets del usuario actual */}
       <TweetList tweets={searchTerm ? searchResults : currentTweets} users={users} onDelete={handleDeleteTweet} />
       {user && (
         <div className='news-container'>
           <h2>Tweets de otros usuarios</h2>
+          {/* Mostrar la lista de tweets filtrados o todos los tweets de otros usuarios */}
           <TweetList
             tweets={searchResults.length === 0 && !searchTerm ? [] : allTweets.filter((tweet) => tweet.userId !== user.uuid)}
             users={users}
@@ -135,9 +140,11 @@ const Home = () => {
           />
         </div>
       )}
+      {/* Sección de noticias (puedes agregar el componente correspondiente aquí) */}
       <NewsSection />
     </div>
   );
 };
 
+// Exportar el componente Home para su uso en otros archivos
 export default Home;
