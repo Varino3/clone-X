@@ -40,13 +40,15 @@ const Home = () => {
       if (newTweetText.trim() !== '') {
         const username = user.nombre_usuario || 'Usuario Desconocido';
 
-        await addTweet(user.uuid, username, newTweetText);
+        try {
+          await addTweet(user.uuid, username, newTweetText);
 
-        const allTweetsData = await getAllTweets();
-        const sortedTweets = allTweetsData.sort((a, b) => b.id - a.id);
-
-        setAllTweets(sortedTweets);
-        setNewTweetText('');
+          // Recargar la página después de agregar un tweet
+          window.location.reload();
+        } catch (error) {
+          console.error('Error al agregar el tweet:', error);
+          alert('Hubo un error al agregar el tweet. Por favor, intenta de nuevo.');
+        }
       }
     } else {
       console.log('Debes iniciar sesión para escribir un tweet.');
@@ -57,12 +59,11 @@ const Home = () => {
     try {
       await deleteTweet(tweetId);
 
-      const allTweetsData = await getAllTweets();
-      const sortedTweets = allTweetsData.sort((a, b) => b.id - a.id);
-
-      setAllTweets(sortedTweets);
+      // Recargar la página después de eliminar un tweet
+      window.location.reload();
     } catch (error) {
       console.error('Error al eliminar el tweet:', error);
+      alert('Hubo un error al eliminar el tweet. Por favor, intenta de nuevo.');
     }
   };
 
