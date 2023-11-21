@@ -1,3 +1,4 @@
+// components/Tweet.jsx
 import React from 'react';
 
 // Componente funcional Tweet que representa un tweet individual
