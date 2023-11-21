@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import TweetList from '../components/TweetList';
 import UserProfile from '../components/UserProfile';
 import NewsSection from '../components/NewsSection';
+import TopTweets from '../components/TopTweets';
 import { addTweet, getAllTweets, getAllUsers, deleteTweet } from '../components/indexedDB';
 
 const Home = () => {
@@ -39,6 +40,7 @@ const Home = () => {
         const username = user.nombre_usuario || 'Usuario Desconocido';
 
         try {
+          // Inicializar los "Me gusta" con 0 al agregar un nuevo tweet
           await addTweet(user.uuid, username, newTweetText);
 
           window.location.reload();
@@ -98,6 +100,7 @@ const Home = () => {
       )}
       <TweetList tweets={searchResults.length === 0 ? allTweets : searchResults} users={users} onDelete={handleDeleteTweet} />
       <NewsSection />
+      <TopTweets />
     </div>
   );
 };

@@ -38,6 +38,7 @@ const openDB = () => {
             tweetStore.createIndex('userId', 'userId');
             tweetStore.createIndex('text', 'text');
             tweetStore.createIndex('nombre_usuario', 'nombre_usuario');
+            tweetStore.createIndex('likes', 'likes');
 
             // Elimina el almacén de objetos 'usuarios' existente antes de crear uno nuevo
             if (db.objectStoreNames.contains('usuarios')) {
@@ -59,8 +60,8 @@ const addTweet = (userId, username, text) => {
             const transaction = db.transaction(['tweets'], 'readwrite');
             const tweetStore = transaction.objectStore('tweets');
 
-            // Agregar el tweet a la base de datos
-            const request = tweetStore.add({ userId, username, text, nombre_usuario: username });
+            // Agregar el tweet a la base de datos con 0 "Me gusta"
+            const request = tweetStore.add({ userId, username, text, nombre_usuario: username, likes: 0 });
 
             // Manejar errores y éxito al agregar el tweet
             request.onerror = (event) => {
