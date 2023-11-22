@@ -9,13 +9,13 @@ const UserProfile = () => {
     <div className="user-profile">
       {user ? (
         <div>
-          <h2>Perfil de Usuario</h2>
+          <h2>Mi Perfil</h2>
           <div>
-            <img src={user.imagen_perfil} alt="Foto usuario" />
+            <img src={user.imagen_perfil} alt="Foto perfil" />
             <div>
-              <p>Nombre: {user.nombre_usuario}</p>
-              <p>Correo: {user.email}</p>
-              <span> {user.uuid} </span>
+              <p><span>Nombre: </span>{user.nombre_usuario}</p>
+              <p><span>Correo: </span>{user.email}</p>
+              <p><span>Tag: </span>{user.uuid} </p>
             </div>
           </div>
         </div>

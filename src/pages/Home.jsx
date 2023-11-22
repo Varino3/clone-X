@@ -79,18 +79,19 @@ const Home = () => {
       {user && (
         <div className='tweet-form'>
           <h2>Inicio</h2>
-          <textarea
-            rows='3'
-            placeholder='Escribe un nuevo tweet'
-            value={newTweetText}
-            onChange={(e) => setNewTweetText(e.target.value)}
-          />
-          <button onClick={handleAddTweet}>Tweetear</button>
-
+          <div>
+            <textarea
+              rows='3'
+              placeholder='Escribe un Tweet'
+              value={newTweetText}
+              onChange={(e) => setNewTweetText(e.target.value)}
+            />
+            <button onClick={handleAddTweet}>Tweetear</button>
+          </div>
           <div className='search-bar'>
             <input
               type='text'
-              placeholder='Buscar tweets'
+              placeholder='Buscar Tweets'
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />

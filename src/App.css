@@ -1,8 +1,12 @@
 /* Estilos globales */
 body {
   font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+  background-image: url(assets/fondo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 header {
@@ -18,10 +22,29 @@ header>div {
   align-items: center;
 }
 
-/* Estilos Home.jsx */
+/* Estilos Header */
+header {
+  border-bottom: 1px solid black;
+}
+
+header>div>div {
+  display: flex;
+}
+
+header>div>div>div {
+  display: flex;
+  flex-direction: column;
+  margin-right: 0.8rem;
+}
+
+header>div>p {
+  margin-right: 0.8rem;
+}
+
+/* Estilos Home */
 .home-container {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 80vw;
+  margin: auto;
   padding: 20px;
 }
 
@@ -34,10 +57,19 @@ h2 {
   margin-bottom: 15px;
 }
 
+.tweet-form>div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 textarea {
-  width: 100%;
+  width: 70%;
   padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid #1da1f2;
+  border-radius: 6px;
+  outline: none;
 }
 
 button {
@@ -47,11 +79,32 @@ button {
   color: white;
   border: 1px solid black;
   border-radius: 4px;
-  margin-left: 20px;
 }
 
 button:hover {
   background-color: #1984c7;
+}
+
+.tweet-form>div:nth-child(3) {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.search-bar {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar>input[type=text] {
+  margin-right: 0.8rem;
+  width: 60%;
+  border-radius: 10px;
+  border: none;
+  border-bottom: 1px solid #1da1f2;
+  padding: 0rem 1rem;
+  outline: none;
 }
 
 .tweet-list {
@@ -70,6 +123,25 @@ button:hover {
 
 /* Estilos perfil */
 .user-profile>div>div {
+  max-width: 60%;
+  margin: auto;
+  border: 1px dashed black;
+  border-radius: 20px;
+  padding: 1rem;
+  background-color: #1da0f2dc;
+}
+
+.user-profile>div>div>div>p>span {
+  font-weight: bold;
+}
+
+.user-profile>p {
+  text-align: center;
+  letter-spacing: 2px;
+  font-style: oblique;
+}
+
+.user-profile>div>div {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,4 +151,48 @@ button:hover {
   width: 10rem;
   border-radius: 50%;
   border: 1px dotted;
+}
+
+/* Tweets */
+.tweet {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.822);
+  border: 1px solid black;
+}
+
+.tweet-user {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.tweet-text {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0.5rem;
+  background-color: rgba(128, 128, 128, 0.269);
+}
+
+.tweet-likes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.tweet-likes span {
+  margin-right: 15px;
+}
+
+.tweet-options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+/* Top Tweets */
+#root>div>div>div:nth-child(5)>div {
+  display: flex;
+  flex-direction: row;
 }
