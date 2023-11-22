@@ -141,7 +141,7 @@ const addLike = (tweetId) => {
 };
 
 // Función para quitar un like de un tweet en la base de datos
-const removeLike = (tweetId) => {
+const removeLike = (likeId) => {
     return new Promise(async (resolve, reject) => {
         try {
             const db = await openDB();
@@ -149,7 +149,7 @@ const removeLike = (tweetId) => {
             const likeStore = transaction.objectStore('likes');
 
             // Eliminar el like de la base de datos
-            const request = likeStore.delete(tweetId);
+            const request = likeStore.delete(likeId);
 
             // Manejar errores y éxito al eliminar el like
             request.onerror = (event) => {

@@ -10,7 +10,6 @@ const Tweet = ({ tweet, onDelete }) => {
     const loadLikes = async () => {
       try {
         // Obtener la cantidad de likes del tweet desde la base de datos
-        // (Deberías tener una función en indexedDB para obtener likes de un tweet específico)
         const likes = await getLikesForTweet(tweet.id);
         setLikesCount(likes);
 
