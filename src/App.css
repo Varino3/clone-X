@@ -22,6 +22,12 @@ header>div {
   align-items: center;
 }
 
+hr {
+  margin: 3rem 15rem;
+  border: 1px solid white;
+  box-shadow: 0px 5px 16px 2px rgba(255, 255, 255, 0.75);
+}
+
 /* Estilos Header */
 header {
   border-bottom: 1px solid black;
@@ -192,7 +198,7 @@ button:hover {
 }
 
 /* Top Tweets */
-#root>div>div>div:nth-child(5)>div {
+#root>div>div>div:nth-child(8)>div {
   display: flex;
   flex-direction: row;
 }

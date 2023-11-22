@@ -76,6 +76,7 @@ const Home = () => {
   return (
     <div className='home-container'>
       <UserProfile />
+      <hr />
       {user && (
         <div className='tweet-form'>
           <h2>Inicio</h2>
@@ -88,6 +89,7 @@ const Home = () => {
             />
             <button onClick={handleAddTweet}>Tweetear</button>
           </div>
+          <hr />
           <div className='search-bar'>
             <input
               type='text'
@@ -100,7 +102,9 @@ const Home = () => {
         </div>
       )}
       <TweetList tweets={searchResults.length === 0 ? allTweets : searchResults} users={users} onDelete={handleDeleteTweet} />
+      <hr />
       <NewsSection />
+      <hr />
       <TopTweets />
     </div>
   );
