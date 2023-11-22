@@ -2,7 +2,7 @@
 
 // Nombre y versión de la base de datos
 const dbName = 'miBaseDeDatos';
-const dbVersion = 3;
+const dbVersion = 4;
 
 // Función para abrir la base de datos
 const openDB = () => {
@@ -48,6 +48,13 @@ const openDB = () => {
             // Crea un nuevo almacén de objetos 'usuarios' con índices
             const userStore = db.createObjectStore('usuarios', { keyPath: 'uuid' });
             userStore.createIndex('nombre_usuario', 'nombre_usuario');
+
+            // Crea un nuevo almacén de objetos 'likes' con índices
+            if (!db.objectStoreNames.contains('likes')) {
+                const likeStore = db.createObjectStore('likes', { keyPath: 'id', autoIncrement: true });
+                likeStore.createIndex('tweetId', 'tweetId');
+                likeStore.createIndex('timestamp', 'timestamp');
+            }
         };
     });
 };
@@ -104,6 +111,114 @@ const deleteTweet = (tweetId) => {
             reject(error);
         }
     });
+};
+
+// Función para agregar un like a un tweet en la base de datos
+const addLike = (tweetId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const db = await openDB();
+            const transaction = db.transaction(['likes'], 'readwrite');
+            const likeStore = transaction.objectStore('likes');
+
+            // Agregar el like a la base de datos
+            const request = likeStore.add({ tweetId, timestamp: new Date() });
+
+            // Manejar errores y éxito al agregar el like
+            request.onerror = (event) => {
+                console.error('Error al agregar el like:', event.target.error);
+                reject(event.target.error);
+            };
+
+            request.onsuccess = (event) => {
+                resolve();
+            };
+        } catch (error) {
+            console.error('Error al abrir la base de datos:', error);
+            reject(error);
+        }
+    });
+};
+
+// Función para quitar un like de un tweet en la base de datos
+const removeLike = (tweetId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const db = await openDB();
+            const transaction = db.transaction(['likes'], 'readwrite');
+            const likeStore = transaction.objectStore('likes');
+
+            // Eliminar el like de la base de datos
+            const request = likeStore.delete(tweetId);
+
+            // Manejar errores y éxito al eliminar el like
+            request.onerror = (event) => {
+                console.error('Error al eliminar el like:', event.target.error);
+                reject(event.target.error);
+            };
+
+            request.onsuccess = (event) => {
+                resolve();
+            };
+        } catch (error) {
+            console.error('Error al abrir la base de datos:', error);
+            reject(error);
+        }
+    });
+};
+
+// Función para obtener la cantidad de likes de un tweet en la base de datos
+const getLikesForTweet = async (tweetId) => {
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(['likes'], 'readonly');
+        const likeStore = transaction.objectStore('likes');
+        const tweetLikesIndex = likeStore.index('tweetId');
+
+        const request = tweetLikesIndex.count(IDBKeyRange.only(tweetId));
+
+        return new Promise((resolve, reject) => {
+            request.onsuccess = (event) => {
+                const count = event.target.result;
+                resolve(count);
+            };
+
+            request.onerror = (event) => {
+                console.error('Error al obtener la cantidad de likes:', event.target.error);
+                reject(event.target.error);
+            };
+        });
+    } catch (error) {
+        console.error('Error al abrir la base de datos:', error);
+        throw error;
+    }
+};
+
+// Función para obtener la lista de tweets que le gustan al usuario desde la base de datos
+const getLikedTweets = async () => {
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(['likes'], 'readonly');
+        const likeStore = transaction.objectStore('likes');
+
+        const request = likeStore.getAll();
+
+        return new Promise((resolve, reject) => {
+            request.onsuccess = (event) => {
+                const likes = event.target.result;
+                const likedTweetIds = likes.map((like) => like.tweetId);
+                resolve(likedTweetIds);
+            };
+
+            request.onerror = (event) => {
+                console.error('Error al obtener los tweets que le gustan al usuario:', event.target.error);
+                reject(event.target.error);
+            };
+        });
+    } catch (error) {
+        console.error('Error al abrir la base de datos:', error);
+        throw error;
+    }
 };
 
 // Función para obtener todos los tweets de la base de datos
@@ -173,4 +288,13 @@ const getAllUsers = () => {
 };
 
 // Exportar las funciones para su uso en otros archivos
-export { addTweet, getAllTweets, getAllUsers, deleteTweet };
+export {
+    addTweet,
+    getAllTweets,
+    getAllUsers,
+    deleteTweet,
+    addLike,
+    removeLike,
+    getLikesForTweet,
+    getLikedTweets
+};
